@@ -1,0 +1,22 @@
+# Core dependencies from Userge
+dnspython
+heroku3
+motor
+pyrogram==2.0.58
+tgcrypto
+
+# Additional dependencies from Loader
+gitpython
+python-dotenv
+
+# Dependencies for better compatibility
+aiohttp>=3.7.4
+async-timeout>=4.0.2
+attrs>=21.2.0
+certifi>=2021.10.8
+chardet>=4.0.0
+idna>=3.3
+multidict>=6.0.2
+typing-extensions>=4.0.1
+yarl>=1.7.2
+

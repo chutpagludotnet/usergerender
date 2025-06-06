@@ -1,0 +1,106 @@
+services:
+  # Web service for the Userge bot
+  - type: web
+    name: userge
+    env: python
+    region: oregon  # You can change this to your preferred region
+    buildCommand: pip install -r requirements-render.txt
+    startCommand: python render_start.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: API_ID
+        sync: false
+      - key: API_HASH
+        sync: false
+      - key: LOG_CHANNEL_ID
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: userge-mongodb
+          property: connectionString
+      - key: CMD_TRIGGER
+        value: "."
+        sync: false
+      - key: WORKERS
+        value: "4"
+        sync: false
+      - key: DOWN_PATH
+        value: "downloads/"
+        sync: false
+      - key: FINISHED_PROGRESS_STR
+        value: "█"
+        sync: false
+      - key: UNFINISHED_PROGRESS_STR
+        value: "░"
+        sync: false
+      - key: ASSERT_SINGLE_INSTANCE
+        value: "false"
+        sync: false
+      - key: SUDO_TRIGGER
+        value: "!"
+        sync: false
+      # Add one of the following mode configurations based on your needs
+      # For USER mode
+      - key: SESSION_STRING
+        sync: false
+      # For BOT mode
+      - key: BOT_TOKEN
+        sync: false
+      - key: OWNER_ID
+        sync: false
+      # For any additional environment variables
+      - key: CUSTOM_PACK_NAME
+        sync: false
+      - key: PREFERRED_LANGUAGE
+        sync: false
+      - key: CURRENCY_API
+        sync: false
+      - key: OCR_SPACE_API_KEY
+        sync: false
+      - key: WEATHER_DEFCITY
+        sync: false
+      - key: SPAM_WATCH_API
+        sync: false
+      - key: OPEN_WEATHER_MAP
+        sync: false
+      - key: REMOVE_BG_API_KEY
+        sync: false
+      - key: G_DRIVE_CLIENT_ID
+        sync: false
+      - key: G_DRIVE_CLIENT_SECRET
+        sync: false
+      - key: G_DRIVE_PARENT_ID
+        sync: false
+      - key: G_DRIVE_INDEX_LINK
+        sync: false
+      - key: G_DRIVE_IS_TD
+        sync: false
+      - key: ALIVE_MEDIA
+        sync: false
+      - key: MAX_DURATION
+        sync: false
+      - key: YOUTUBE_DL_PATH
+        sync: false
+      - key: CRYPT
+        sync: false
+      - key: APPDRIVE_EMAIL
+        sync: false
+      - key: APPDRIVE_PASS
+        sync: false
+
+  # MongoDB database service
+  - type: pserv
+    name: userge-mongodb
+    env: docker
+    repo: https://github.com/render-examples/mongodb.git
+    envVars:
+      - key: MONGO_INITDB_ROOT_USERNAME
+        generateValue: true
+      - key: MONGO_INITDB_ROOT_PASSWORD
+        generateValue: true
+    disk:
+      name: data
+      mountPath: /data/db
+      sizeGB: 10
+
