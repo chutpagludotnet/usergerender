@@ -3,7 +3,7 @@ services:
   - type: web
     name: userge
     env: python
-    region: oregon  # You can change this to your preferred region
+    region: virginia  # You can change this to your preferred region
     buildCommand: pip install -r requirements-render.txt
     startCommand: python render_start.py
     envVars:
@@ -16,31 +16,21 @@ services:
       - key: LOG_CHANNEL_ID
         sync: false
       - key: DATABASE_URL
-        fromDatabase:
-          name: userge-mongodb
-          property: connectionString
+        sync: false  # Set your MongoDB Atlas connection string in the Render dashboard after deploy
       - key: CMD_TRIGGER
-        value: "."
-        sync: false
+        value: "!"
       - key: WORKERS
         value: "4"
-        sync: false
       - key: DOWN_PATH
         value: "downloads/"
-        sync: false
       - key: FINISHED_PROGRESS_STR
         value: "█"
-        sync: false
       - key: UNFINISHED_PROGRESS_STR
         value: "░"
-        sync: false
       - key: ASSERT_SINGLE_INSTANCE
         value: "false"
-        sync: false
       - key: SUDO_TRIGGER
         value: "!"
-        sync: false
-      # Add one of the following mode configurations based on your needs
       # For USER mode
       - key: SESSION_STRING
         sync: false
@@ -49,7 +39,7 @@ services:
         sync: false
       - key: OWNER_ID
         sync: false
-      # For any additional environment variables
+      # Optional/additional environment variables
       - key: CUSTOM_PACK_NAME
         sync: false
       - key: PREFERRED_LANGUAGE
@@ -88,19 +78,3 @@ services:
         sync: false
       - key: APPDRIVE_PASS
         sync: false
-
-  # MongoDB database service
-  - type: pserv
-    name: userge-mongodb
-    env: docker
-    repo: https://github.com/render-examples/mongodb.git
-    envVars:
-      - key: MONGO_INITDB_ROOT_USERNAME
-        generateValue: true
-      - key: MONGO_INITDB_ROOT_PASSWORD
-        generateValue: true
-    disk:
-      name: data
-      mountPath: /data/db
-      sizeGB: 10
-
